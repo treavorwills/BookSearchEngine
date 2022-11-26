@@ -50,7 +50,7 @@ const resolvers = {
     },
     addBook: async (parent, { bookId }, context) => {
       if (context.user) {
-        const savedBook = await Book.create({
+        const book = await Book.create({
           bookId,
         });
 
@@ -59,7 +59,7 @@ const resolvers = {
           { $addToSet: { savedBooks: book._id } }
         );
 
-        return thought;
+        return book;
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -75,7 +75,7 @@ const resolvers = {
           { $pull: { savedBooks: book._id } }
         );
 
-        return book;
+        return user;
       }
       throw new AuthenticationError('You need to be logged in!');
     },
